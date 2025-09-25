@@ -1,88 +1,87 @@
-````markdown
 # 📺 Fynema API
 
-L’API **Fynema** est le cœur applicatif permettant de rechercher, télécharger et gérer des médias via des services comme
-**Jackett**, **Jellyfin** ou **Plex**.  
-Elle est développée en **Spring Boot** et expose des endpoints **REST** sécurisés avec **JWT**, ainsi qu’un canal *
-*WebSocket** pour suivre l’avancement des téléchargements en temps réel.
+The **Fynema API** is the core application that enables searching, downloading, and managing media through services like  
+**Jackett**, **Jellyfin**, or **Plex**.  
+It is built with **Spring Boot** and exposes **REST** endpoints secured with **JWT**, as well as a **WebSocket** channel  
+to track download progress in real time.
 
 ---
 
-## 🚀 Démarrage
+## 🚀 Getting Started
 
-### 🔧 Prérequis
+### 🔧 Prerequisites
 
 - **Java 25**
 - **Maven 3.9+**
-- Une instance de **MariaDB** ou **MySQL**
-- Une instance de **Jackett** configurée avec vos indexers
-- (Optionnel) Une instance **Jellyfin** ou **Plex** pour l’actualisation automatique des bibliothèques
+- A **MariaDB** or **MySQL** instance
+- A **Jackett** instance configured with your indexers
+- (Optional) A **Jellyfin** or **Plex** instance for automatic library refresh
 
-### ▶️ Lancer en local
+### ▶️ Run locally
 
-Clonez le projet, puis exécutez :
+Clone the project, then run:
 
 ```bash
 mvn spring-boot:run
-````
+```
 
-Par défaut, l’API écoute sur **[http://localhost:8080](http://localhost:8080)**.
+By default, the API runs at **[http://localhost:8080](http://localhost:8080)**.
 
 ---
 
 ## ⚙️ Configuration
 
-### `application.properties` (exemple)
+### `application.properties` (example)
 
 ```properties
-# Base de données
+# Database
 spring.datasource.url=jdbc:mariadb://localhost:3306/fynema
 spring.datasource.username=fynema
 spring.datasource.password=secret
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+
 # JWT
 security.jwt.secret=super_secret_key_change_me
-security.jwt.expiration=86400000 # 1 jour en ms
+security.jwt.expiration=86400000 # 1 day in ms
 ```
 
 ---
 
-## 👤 Utilisateur admin par défaut
+## 👤 Default admin user
 
-Lors du premier démarrage, si la base de données est vide, un **utilisateur `admin`** est automatiquement créé.
-Un mot de passe aléatoire sécurisé (16 caractères) est généré et affiché dans les logs au démarrage de l’application :
+On the very first startup, if the database is empty, a default **`admin`** user is automatically created.  
+A secure random password (16 characters) is generated and printed in the logs at startup:
 
 ```
 Default admin user created with username 'admin'.
 Please change the password after first login,
 
-the password is: <mot_de_passe_généré>
+the password is: <generated_password>
 ```
 
-⚠️ **Important** : pensez à changer ce mot de passe immédiatement après la première connexion pour sécuriser votre
-instance.
+⚠️ **Important**: Make sure to change this password immediately after the first login to secure your instance.
 
 ---
 
-## 🔑 Sécurité (JWT)
+## 🔑 Security (JWT)
 
-Tous les endpoints protégés nécessitent un **token JWT**.
+All protected endpoints require a **JWT token**.
 
-### Flux d’authentification
+### Authentication flow
 
-1. **Connexion** :
-   `POST /auth/login`
-   Payload :
+1. **Login**:  
+   `POST /auth/login`  
+   Payload:
 
    ```json
    {
      "username": "admin",
-     "password": "motdepasse"
+     "password": "mypassword"
    }
    ```
 
-   Réponse :
+   Response:
 
    ```json
    {
@@ -90,8 +89,8 @@ Tous les endpoints protégés nécessitent un **token JWT**.
    }
    ```
 
-2. **Requêtes protégées** :
-   Ajoutez ce header à chaque requête :
+2. **Access protected routes**:  
+   Add this header to every request:
 
    ```
    Authorization: Bearer <token>
@@ -99,29 +98,29 @@ Tous les endpoints protégés nécessitent un **token JWT**.
 
 ---
 
-## 🛠️ Technologies principales
+## 🛠️ Main technologies
 
 * **Spring Boot 3.5.6**
-* **Spring Data JPA** → persistance
-* **Spring Security + JWT (jjwt 0.13.0)** → sécurité
-* **Spring Websocket (STOMP)** → notifications en temps réel
-* **MariaDB Driver** → base de données
-* **BouncyCastle + Argon2** → hashage des mots de passe
-* **Lombok** → réduction du boilerplate
-* **Actuator** → monitoring et endpoints techniques
-* **Maven** → build & gestion des dépendances
+* **Spring Data JPA** → persistence
+* **Spring Security + JWT (jjwt 0.13.0)** → security
+* **Spring WebSocket (STOMP)** → real-time notifications
+* **MariaDB Driver** → database connection
+* **BouncyCastle + Argon2** → password hashing
+* **Lombok** → boilerplate reduction
+* **Actuator** → monitoring & technical endpoints
+* **Maven** → build & dependency management
 
 ---
 
-## 📡 Endpoints disponibles
+## 📡 Available endpoints
 
-* `POST /auth/login` → authentification, génère un JWT
-* `POST /auth/register` → inscription d’un nouvel utilisateur
-* `GET /users` → liste les utilisateurs (protégé par JWT)
+* `POST /auth/login` → authenticate and generate a JWT
+* `POST /auth/register` → register a new user
+* `GET /users` → list users (JWT required)
 
 ---
 
-## 📜 Licence
+## 📜 License
 
-⚠️ **Usage strictement personnel**.
-Le code n’est pas destiné à une distribution publique ni à un usage commercial.
+⚠️ **Strictly personal use only**.  
+This code is not intended for public distribution or commercial use.
