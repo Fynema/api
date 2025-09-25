@@ -104,5 +104,3 @@ Tous les endpoints protégés nécessitent un **token JWT**.
 
 ⚠️ **Usage strictement personnel**.
 Le code n’est pas destiné à une distribution publique ni à un usage commercial.
-
-```
