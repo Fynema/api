@@ -1,8 +1,8 @@
 package media.fynema.api.controller;
 
 import lombok.RequiredArgsConstructor;
-import media.fynema.api.dto.CreateUserRequestDTO;
-import media.fynema.api.dto.UserResponseDTO;
+import media.fynema.api.dto.requests.CreateUserRequestDTO;
+import media.fynema.api.dto.responses.UserResponseDTO;
 import media.fynema.api.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

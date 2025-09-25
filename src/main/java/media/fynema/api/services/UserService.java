@@ -1,8 +1,8 @@
 package media.fynema.api.services;
 
 import lombok.RequiredArgsConstructor;
-import media.fynema.api.dto.CreateUserRequestDTO;
-import media.fynema.api.dto.UserResponseDTO;
+import media.fynema.api.dto.requests.CreateUserRequestDTO;
+import media.fynema.api.dto.responses.UserResponseDTO;
 import media.fynema.api.model.User;
 import media.fynema.api.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;

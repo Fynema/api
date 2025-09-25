@@ -1,4 +1,4 @@
-package media.fynema.api.dto;
+package media.fynema.api.dto.responses;
 
 public record UserResponseDTO(
         Long id,

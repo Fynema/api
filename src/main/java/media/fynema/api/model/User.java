@@ -4,13 +4,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import media.fynema.api.enums.UserRole;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,4 +31,9 @@ public class User {
 
     @Column(unique = true)
     private Date deleted_at = null;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
 }
