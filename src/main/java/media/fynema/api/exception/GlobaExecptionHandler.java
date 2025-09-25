@@ -11,17 +11,16 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobaExecptionHandler {
-
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<?> handleBadCredentials(BadCredentialsException ignoredEx) {
+    public ResponseEntity<?> handleBadCredentials(BadCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("error", "Invalid username or password"));
+                .body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ignoredEx) {
+    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(Map.of("error", "Access denied"));
+                .body(Map.of("error", ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -31,8 +30,8 @@ public class GlobaExecptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleOther(Exception ignoredEx) {
+    public ResponseEntity<?> handleOther(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", "Internal server error"));
+                .body(Map.of("error", ex.getMessage() != null ? ex.getMessage() : "Internal server error"));
     }
 }
