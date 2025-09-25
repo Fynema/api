@@ -1,13 +1,17 @@
+````markdown
 # 📺 Fynema API
 
-L’API **Fynema** est le cœur applicatif permettant de rechercher, télécharger et gérer des médias via des services comme **Jackett**, **Jellyfin** ou **Plex**.  
-Elle est développée en **Spring Boot** et expose des endpoints **REST** sécurisés avec **JWT**, ainsi qu’un canal **WebSocket** pour suivre l’avancement des téléchargements en temps réel.
+L’API **Fynema** est le cœur applicatif permettant de rechercher, télécharger et gérer des médias via des services comme
+**Jackett**, **Jellyfin** ou **Plex**.  
+Elle est développée en **Spring Boot** et expose des endpoints **REST** sécurisés avec **JWT**, ainsi qu’un canal *
+*WebSocket** pour suivre l’avancement des téléchargements en temps réel.
 
 ---
 
 ## 🚀 Démarrage
 
 ### 🔧 Prérequis
+
 - **Java 25**
 - **Maven 3.9+**
 - Une instance de **MariaDB** ou **MySQL**
@@ -15,6 +19,7 @@ Elle est développée en **Spring Boot** et expose des endpoints **REST** sécur
 - (Optionnel) Une instance **Jellyfin** ou **Plex** pour l’actualisation automatique des bibliothèques
 
 ### ▶️ Lancer en local
+
 Clonez le projet, puis exécutez :
 
 ```bash
@@ -36,11 +41,27 @@ spring.datasource.username=fynema
 spring.datasource.password=secret
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
-
 # JWT
 security.jwt.secret=super_secret_key_change_me
 security.jwt.expiration=86400000 # 1 jour en ms
 ```
+
+---
+
+## 👤 Utilisateur admin par défaut
+
+Lors du premier démarrage, si la base de données est vide, un **utilisateur `admin`** est automatiquement créé.
+Un mot de passe aléatoire sécurisé (16 caractères) est généré et affiché dans les logs au démarrage de l’application :
+
+```
+Default admin user created with username 'admin'.
+Please change the password after first login,
+
+the password is: <mot_de_passe_généré>
+```
+
+⚠️ **Important** : pensez à changer ce mot de passe immédiatement après la première connexion pour sécuriser votre
+instance.
 
 ---
 
@@ -56,8 +77,8 @@ Tous les endpoints protégés nécessitent un **token JWT**.
 
    ```json
    {
-     "username": "test",
-     "password": "secret"
+     "username": "admin",
+     "password": "motdepasse"
    }
    ```
 
