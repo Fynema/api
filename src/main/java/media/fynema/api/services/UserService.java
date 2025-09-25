@@ -1,22 +1,20 @@
 package media.fynema.api.services;
 
+import lombok.RequiredArgsConstructor;
 import media.fynema.api.dto.CreateUserRequestDTO;
 import media.fynema.api.dto.UserResponseDTO;
 import media.fynema.api.model.User;
 import media.fynema.api.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponseDTO createUser(CreateUserRequestDTO request) {
         User user = new User();

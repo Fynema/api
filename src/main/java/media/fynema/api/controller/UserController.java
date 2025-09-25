@@ -1,9 +1,9 @@
 package media.fynema.api.controller;
 
+import lombok.RequiredArgsConstructor;
 import media.fynema.api.dto.CreateUserRequestDTO;
 import media.fynema.api.dto.UserResponseDTO;
 import media.fynema.api.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody CreateUserRequestDTO createUserRequestDTO) {
