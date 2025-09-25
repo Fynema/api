@@ -42,14 +42,32 @@ services:
     ports:
       - "9117:9117"
     volumes:
-      - ./jackett/downloads:/downloads
       - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
     depends_on:
       - mariadb
       - flaresolverr
     networks:
       - fynema_network
-
+  aria2:
+    image: hobbsau/aria2
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      RPC_PORT: 6800
+      LISTEN_PORT: 6888
+    ports:
+      - "6800:6800"
+      - "6888:6888"
+      - "6888:6888/udp"
+    volumes:
+      - ./aria2/config:/config
+      - ./aria2/downloads:/downloads
+    command: aria2c --conf-path=/config/aria2c.conf
+    depends_on:
+      - mariadb
+    networks:
+      - fynema_network
 
 volumes:
   mariadb_data:
