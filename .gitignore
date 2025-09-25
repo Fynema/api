@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ### Docker volumes ###
-/aria2/downloads
+/aria2/*
+!/aria2/aria2.conf

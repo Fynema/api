@@ -16,7 +16,7 @@ public class DownloadController {
             @RequestParam String torrentUrl
     ) {
         try {
-            String gid = aria2Service.addTorrentFromUrl(torrentUrl, "/downloads");
+            String gid = aria2Service.addTorrentFromUrl(torrentUrl, "movies");
             return ResponseEntity.ok(gid);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());

@@ -31,8 +31,9 @@ public class Aria2Service {
         ArrayNode params = client.baseParams();
         params.add(b64);
         params.add(params.arrayNode());
+
         ObjectNode options = params.objectNode();
-        if (dir != null && !dir.isBlank()) options.put("dir", dir);
+        if (dir != null && !dir.isBlank()) options.put("dir", "/downloads/" + dir);
         params.add(options);
 
         JsonNode resp = client.call("aria2.addTorrent", params);
@@ -56,6 +57,10 @@ public class Aria2Service {
         JsonNode resp = client.call("aria2.tellStatus", params);
         if (resp.has("error")) return null;
         return (ObjectNode) resp.get("result");
+    }
+
+    public String addTorrentFromUrl(String torrentUrl) throws Exception {
+        return addTorrentFromUrl(torrentUrl, null);
     }
 
     public void removeDownload(String gid, String status) throws IOException, InterruptedException {

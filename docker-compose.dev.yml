@@ -49,11 +49,11 @@ services:
     networks:
       - fynema_network
   aria2:
-    image: hobbsau/aria2
+    image: p3terx/aria2-pro
     restart: unless-stopped
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: 0
+      PGID: 0
       RPC_PORT: 6800
       LISTEN_PORT: 6888
     ports:
@@ -62,15 +62,12 @@ services:
       - "6888:6888/udp"
     volumes:
       - ./aria2/config:/config
-      - ./aria2/downloads:/downloads
-    command: aria2c --conf-path=/config/aria2c.conf
-    depends_on:
-      - mariadb
-    networks:
-      - fynema_network
+#      - ./aria2/downloads:/downloads
+      - aria2_downloads:/downloads
 
 volumes:
   mariadb_data:
+  aria2_downloads:
 
 networks:
   fynema_network:
