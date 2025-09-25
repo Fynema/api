@@ -1,0 +1,58 @@
+name: Fynema Development Environment
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: fynema
+      MYSQL_USER: fynema_user
+      MYSQL_PASSWORD: fynema_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - fynema_network
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Etc/UTC+1
+    ports:
+      - "8191:8191"
+    depends_on:
+      - mariadb
+    networks:
+      - fynema_network
+  jackett:
+    image: linuxserver/jackett:latest
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Etc/UTC+1
+    ports:
+      - "9117:9117"
+    volumes:
+      - ./jackett/downloads:/downloads
+      - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
+    depends_on:
+      - mariadb
+      - flaresolverr
+    networks:
+      - fynema_network
+
+
+volumes:
+  mariadb_data:
+
+networks:
+  fynema_network:

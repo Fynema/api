@@ -3,11 +3,7 @@ package media.fynema.api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-enum MediaServerType {
-    PLEX,
-    JELLYFIN
-}
+import media.fynema.api.enums.MediaServerType;
 
 @Entity
 @Getter
