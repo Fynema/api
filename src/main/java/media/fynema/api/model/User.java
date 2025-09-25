@@ -1,11 +1,9 @@
 package media.fynema.api.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import media.fynema.api.enums.UserRole;
 
 import java.util.Date;
 
@@ -20,6 +18,9 @@ public class User {
     private String username;
 
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     private Date created_at = new Date();
 

@@ -2,6 +2,7 @@ package media.fynema.api.config;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import media.fynema.api.enums.UserRole;
 import media.fynema.api.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ public class DataInitializer {
             String generatedPassword = generateRandomPassword();
 
             user.setPassword(passwordEncoder.encode(generatedPassword));
+            user.setRole(UserRole.ADMIN);
             userRepository.save(user);
             logger.log(Level.INFO, "\n\nDefault admin user created with username 'admin'. \nPlease change the password after first login, \n\nthe password is: " + generatedPassword + "\n" );
         }
