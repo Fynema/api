@@ -46,8 +46,8 @@ public class JackettService {
                     .filter(t -> filters.stream()
                             .allMatch(f -> t.getTitle().toLowerCase().contains(f.toLowerCase())))
                     .filter(t -> parseSeeders(t.getSeeders()) > 0)
-//                    Exclude titles with year ranges like "1999-2000"
-                    .filter(t -> !t.getTitle().matches(".*\\b(\\d{4})-(\\d{4})\\b.*"))
+//                    Exclude titles with year ranges like "1999-2000" and similar patterns "2001.2002"
+                    .filter(t -> !t.getTitle().matches(".*\\b(19|20)\\d{2}[-.](19|20)\\d{2}\\b.*"))
                     .toList();
         }
 
