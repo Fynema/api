@@ -117,8 +117,7 @@ public class Aria2Service {
                     try {
                         removeDownload(gid, state);
                         System.out.println("Download supprimé pour GID: " + gid);
-                    } catch (Exception e) {
-                        System.out.println("Impossible de supprimer GID " + gid + " : " + e.getMessage());
+                    } catch (Exception ignored) {
                     }
                     toRemove.add(gid);
                 }
