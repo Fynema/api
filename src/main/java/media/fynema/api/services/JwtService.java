@@ -11,17 +11,21 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private final SecretKey key;
+    private final SecretKey accessSecret;
+    private final SecretKey refreshSecret;
     private final long expiration;
 
     public JwtService(
-            @Value("${security.jwt.secret}") String secret,
-            @Value("${security.jwt.expiration}") long expiration) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+            @Value("${security.jwt.accessSecret}") String accessSecret,
+            @Value("${security.jwt.refreshSecret}") String refreshSecret,
+            @Value("${security.jwt.expiration}") long expiration
+    ) {
+        this.accessSecret = Keys.hmacShaKeyFor(accessSecret.getBytes());
+        this.refreshSecret = Keys.hmacShaKeyFor(refreshSecret.getBytes());
         this.expiration = expiration;
     }
 
-    public String generateToken(Long userId) {
+    public String generateAccessToken(Long userId) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expiration);
 
@@ -29,7 +33,19 @@ public class JwtService {
                 .subject(userId.toString())
                 .issuedAt(now)
                 .expiration(expiry)
-                .signWith(key)
+                .signWith(accessSecret)
+                .compact();
+    }
+
+    public String generateRefreshToken(Long userId) {
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + expiration * 10);
+
+        return Jwts.builder()
+                .subject(userId.toString())
+                .issuedAt(now)
+                .expiration(expiry)
+                .signWith(refreshSecret)
                 .compact();
     }
 
@@ -38,9 +54,21 @@ public class JwtService {
         return Long.valueOf(subject);
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateAccessToken(String accessToken) {
         try {
-            parseToken(token);
+            parseToken(accessToken);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean validateRefreshToken(String refreshToken) {
+        try {
+            Jwts.parser()
+                    .verifyWith(refreshSecret)
+                    .build()
+                    .parseSignedClaims(refreshToken);
             return true;
         } catch (Exception e) {
             return false;
@@ -49,7 +77,7 @@ public class JwtService {
 
     private Claims parseToken(String token) {
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(accessSecret)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

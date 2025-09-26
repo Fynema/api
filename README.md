@@ -42,8 +42,10 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
 # JWT
-security.jwt.secret=super_secret_key_change_me
-security.jwt.expiration=86400000 # 1 day in ms
+security.jwt.accessSecret=super_secret_key_change_me
+security.jwt.refreshSecret=another_super_secret_key_change_me_too
+# 15 minutes
+security.jwt.expiration=900000
 ```
 
 ---
