@@ -62,12 +62,10 @@ services:
       - "6888:6888/udp"
     volumes:
       - ./aria2/config:/config
-#      - ./aria2/downloads:/downloads
-      - aria2_downloads:/downloads
+      - ./aria2/downloads:/downloads
 
 volumes:
   mariadb_data:
-  aria2_downloads:
 
 networks:
   fynema_network:
