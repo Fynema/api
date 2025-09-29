@@ -3,18 +3,20 @@ package media.fynema.api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import media.fynema.api.enums.MediaServerType;
 
 @Entity
 @Getter
 @Setter
-public class MediaServer {
+public class MediaServerCategory {
     @Id
     @GeneratedValue
     private Long id;
 
-    private String host;
+    private String name;
 
-    @Enumerated(EnumType.STRING)
-    private MediaServerType type;
+    @ManyToOne
+    @JoinColumn(name = "media_server_id")
+    private MediaServer mediaServer;
+
+    private String path;
 }

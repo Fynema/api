@@ -17,6 +17,8 @@ public class Media {
 
     private Long tmdb_id;
 
+    private Long download_id;
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
