@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import media.fynema.api.model.TorrentResult;
 import media.fynema.api.services.JackettService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
