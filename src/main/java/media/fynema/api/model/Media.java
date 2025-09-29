@@ -3,6 +3,7 @@ package media.fynema.api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import media.fynema.api.enums.MediaStatus;
 
 @Entity
 @Getter
@@ -27,4 +28,7 @@ public class Media {
     @ManyToOne
     @JoinColumn(name = "quality_id")
     private Quality quality;
+
+    @Enumerated(EnumType.STRING)
+    private MediaStatus status;
 }
