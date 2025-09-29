@@ -5,10 +5,9 @@ import media.fynema.api.dto.requests.CreateMediaSeverRequestDTO;
 import media.fynema.api.model.MediaServer;
 import media.fynema.api.repository.MediaServerRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/mediaserver")
@@ -28,5 +27,22 @@ class MediaServerController {
         newMediaServer.setType(mediaServer.type());
         mediaServerRepository.save(newMediaServer);
         return ResponseEntity.ok(newMediaServer);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MediaServer>> getAll() {
+        List<MediaServer> servers = mediaServerRepository.findAll();
+        return ResponseEntity.ok(servers);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteOne(@RequestParam Integer id) {
+        MediaServer server = mediaServerRepository.findById(id).orElse(null);
+        if (server != null) {
+            mediaServerRepository.delete(server);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
