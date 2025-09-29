@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import media.fynema.api.dto.requests.CreateMediaSeverRequestDTO;
 import media.fynema.api.model.MediaServer;
 import media.fynema.api.repository.MediaServerRepository;
+import media.fynema.api.services.MediaServerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,34 +14,25 @@ import java.util.List;
 @RequestMapping("/mediaserver")
 @RequiredArgsConstructor
 class MediaServerController {
-    private final MediaServerRepository mediaServerRepository;
+    private final MediaServerService mediaServerService;
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<MediaServer> create(@RequestBody CreateMediaSeverRequestDTO mediaServer) {
-        MediaServer existingServer = mediaServerRepository.findByHost(mediaServer.host());
-        if (existingServer != null) {
-            return ResponseEntity.ok(existingServer);
-        }
-
-        MediaServer newMediaServer = new MediaServer();
-        newMediaServer.setHost(mediaServer.host());
-        newMediaServer.setType(mediaServer.type());
-        mediaServerRepository.save(newMediaServer);
-        return ResponseEntity.ok(newMediaServer);
+        MediaServer createdServer = mediaServerService.create(mediaServer);
+        return ResponseEntity.ok(createdServer);
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<MediaServer>> getAll() {
-        List<MediaServer> servers = mediaServerRepository.findAll();
+        List<MediaServer> servers = mediaServerService.getAll();
         return ResponseEntity.ok(servers);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteOne(@RequestParam Integer id) {
-        MediaServer server = mediaServerRepository.findById(id).orElse(null);
-        if (server != null) {
-            mediaServerRepository.delete(server);
-            return ResponseEntity.ok().build();
+    @DeleteMapping()
+    public ResponseEntity<MediaServer> deleteOne(@RequestParam Integer id) {
+        MediaServer deletedServer = mediaServerService.deleteOne(id);
+        if (deletedServer != null) {
+            return ResponseEntity.ok(deletedServer);
         } else {
             return ResponseEntity.notFound().build();
         }
