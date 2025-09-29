@@ -16,7 +16,7 @@ import java.util.List;
 public class MediaServerService {
     private final MediaServerRepository mediaServerRepository;
 
-    public MediaServer create(@RequestBody CreateMediaSeverRequestDTO mediaServer) {
+    public MediaServer create(CreateMediaSeverRequestDTO mediaServer) {
         MediaServer existingServer = mediaServerRepository.findByHost(mediaServer.host());
         if (existingServer != null) {
             return existingServer;
